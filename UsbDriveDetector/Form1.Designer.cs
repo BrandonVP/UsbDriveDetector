@@ -38,14 +38,19 @@
             // 
             // listBox1
             // 
+            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(3, 2);
+            this.listBox1.Location = new System.Drawing.Point(-3, 2);
+            this.listBox1.MaximumSize = new System.Drawing.Size(1920, 1080);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(808, 407);
+            this.listBox1.Size = new System.Drawing.Size(800, 407);
             this.listBox1.TabIndex = 0;
             // 
             // getUSB
             // 
+            this.getUSB.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.getUSB.Location = new System.Drawing.Point(3, 416);
             this.getUSB.Name = "getUSB";
             this.getUSB.Size = new System.Drawing.Size(75, 23);
@@ -56,7 +61,8 @@
             // 
             // clearlistbox
             // 
-            this.clearlistbox.Location = new System.Drawing.Point(722, 416);
+            this.clearlistbox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.clearlistbox.Location = new System.Drawing.Point(722, 415);
             this.clearlistbox.Name = "clearlistbox";
             this.clearlistbox.Size = new System.Drawing.Size(75, 23);
             this.clearlistbox.TabIndex = 2;
@@ -66,6 +72,7 @@
             // 
             // readComPort
             // 
+            this.readComPort.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.readComPort.Location = new System.Drawing.Point(84, 416);
             this.readComPort.Name = "readComPort";
             this.readComPort.Size = new System.Drawing.Size(75, 23);
@@ -76,7 +83,8 @@
             // 
             // sendSerial
             // 
-            this.sendSerial.Location = new System.Drawing.Point(377, 416);
+            this.sendSerial.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.sendSerial.Location = new System.Drawing.Point(377, 415);
             this.sendSerial.Name = "sendSerial";
             this.sendSerial.Size = new System.Drawing.Size(75, 23);
             this.sendSerial.TabIndex = 4;
@@ -86,6 +94,7 @@
             // 
             // openSerial
             // 
+            this.openSerial.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.openSerial.Location = new System.Drawing.Point(296, 415);
             this.openSerial.Name = "openSerial";
             this.openSerial.Size = new System.Drawing.Size(75, 23);

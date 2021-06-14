@@ -44,18 +44,10 @@ namespace UsbDriveDetector
             }
         }
 
-        protected int getCOMList(bool boxPrint = true)
+        protected int getCOMList()
         {
             var usbDevices = GetUSBDevices();
             int count = 0;
-            if(boxPrint)
-            {
-
-            }
-            else
-            {
-
-            }
             foreach (var usbDevice in usbDevices)
             {
                 listBox1.Items.Add("Device ID: " + usbDevice.DeviceID);
@@ -72,10 +64,10 @@ namespace UsbDriveDetector
             List<USBDeviceInfo> devices = new List<USBDeviceInfo>();
 
             ManagementObjectCollection collection;
-            //using (var searcher = new ManagementObjectSearcher(@"Select * From Win32_PnPEntity"))
-            //    collection = searcher.Get();
-            using (var searcher = new ManagementObjectSearcher(@"Select * From Win32_USBHub"))
+            using (var searcher = new ManagementObjectSearcher(@"Select * From Win32_PnPEntity"))
                 collection = searcher.Get();
+            //using (var searcher = new ManagementObjectSearcher(@"Select * From Win32_USBHub"))
+            //    collection = searcher.Get();
 
             foreach (var device in collection)
             {
@@ -180,17 +172,20 @@ namespace UsbDriveDetector
 
         private void sendSerial_Click(object sender, EventArgs e)
         {
-            PortWrite("testLowerAxis");
-            listBox1.Items.Add(port.ReadLine());
-            listBox1.Items.Add("----------------------------");
-            Thread.Sleep(1000);
-            PortWrite("testUpperAxis");
-            listBox1.Items.Add(port.ReadLine());
-            listBox1.Items.Add("----------------------------");
-            Thread.Sleep(1000);
-            PortWrite("testPosAxis");
-            listBox1.Items.Add(port.ReadLine());
-            listBox1.Items.Add("----------------------------");
+            if (port != null && port.IsOpen)
+            {
+                PortWrite("testLowerAxis");
+                listBox1.Items.Add(port.ReadLine());
+                listBox1.Items.Add("----------------------------");
+                Thread.Sleep(1000);
+                PortWrite("testUpperAxis");
+                listBox1.Items.Add(port.ReadLine());
+                listBox1.Items.Add("----------------------------");
+                Thread.Sleep(1000);
+                PortWrite("testPosAxis");
+                listBox1.Items.Add(port.ReadLine());
+                listBox1.Items.Add("----------------------------");
+            }
         }
         private void PortWrite(string message)
         {
@@ -204,16 +199,33 @@ namespace UsbDriveDetector
         {
             string[] temp = SerialPort.GetPortNames();
             int value = temp.Length;
-            port = new SerialPort(temp[value - 1], 115200);//Set your board COM
-            port.DtrEnable = true;
-            if (port != null && !port.IsOpen)
+
+            for (int i = value; i >= 0; i--)
             {
-                port.Open();
+                port = new SerialPort(temp[i - 1], 115200);
+                port.DtrEnable = true;
+                if (port != null && !port.IsOpen)
+                {
+                    port.Open();
+                }
+                listBox1.Items.Add(port.ReadLine());
+                listBox1.Items.Add(port.ReadLine());
+                PortWrite("MEGA2560_1");
+                string temp2 = port.ReadLine();
+                temp2.Trim().Normalize();
+                if (temp2.Contains("true"))
+                {
+                    listBox1.Items.Add("Device ready");
+                    listBox1.Items.Add("----------------------------");
+                    return;
+                }
+                else
+                {
+                    listBox1.Items.Add("failed");
+                    port.Close();
+                    Thread.Sleep(1000);
+                }
             }
-            listBox1.Items.Add("Device ready");
-            listBox1.Items.Add("----------------------------");
-            Thread.Sleep(1000);
-            port.ReadExisting();
         }
     }
     static class connectedCOM
